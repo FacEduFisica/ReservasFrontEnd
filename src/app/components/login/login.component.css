@@ -1,0 +1,32 @@
+button {
+    width: 30%;
+}
+  
+.input-group {
+  width: 40%;
+  justify-content: center;
+  margin-left: 30%;
+}
+  
+.poli {
+  background-color: #186844;
+  color: white;
+  -webkit-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+  -moz-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+}
+
+.message {
+  margin-right: 20em;
+  margin-left: 20em;
+}
+
+.form-control-feedback{
+  font-size: 13px;
+  color: red;
+  font-weight: 600;
+}
+
+.anchor-poli {
+  cursor: pointer;
+}

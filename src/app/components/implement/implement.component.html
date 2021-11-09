@@ -1,0 +1,68 @@
+<div class="col-md-4" *ngFor="let implement of implements">
+    <div class="card text-center mb-4">
+        <div class="card-header background-poli text-white d-flex justify-content-between align-items-center">
+            {{implement.nombre}}
+            <ng-container *ngIf="dataService.isAdmin()">
+                <div class="d-flex">
+                    <button class="btn btn-secondary mr-2" [routerLink]="['/implementos/editar',implement.id]">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="deleteImplement(implement.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+        <div class="card-body">
+            <p class="mb-1">{{implement.placa}}</p>
+            <p class="mb-1">Cantidad: {{implement.cantidad}}</p>
+            <p class="mb-1">Cantidad Disponible: {{implement.cantidad - implement.cantidad_prestados}}</p>
+            <div class="accordion" id="accordionCard{{implement.id}}">
+                <p>
+                    <a class="btn btn-top-yellow" data-toggle="collapse" href="#collapseValor{{implement.id}}"
+                        role="button" aria-expanded="false"
+                        [attr.aria-controls]="'collapseValor'+implement.id">
+                        Valor Perdida
+                    </a>
+                    <button class="btn btn-top-yellow ml-2" type="button" data-toggle="collapse"
+                        [attr.data-target]="'#collapseDescripcion'+implement.id" aria-expanded="false"
+                        [attr.aria-controls]="'collapseDescripcion'+implement.id">
+                        Descripción
+                    </button>
+                </p>
+                <div class="collapse" id="collapseValor{{implement.id}}" [attr.data-parent]="'#accordionCard'+implement.id">
+                    <div class="card card-body">
+                        ${{implement.valor}}
+                    </div>
+                </div>
+                <div class="collapse" id="collapseDescripcion{{implement.id}}" [attr.data-parent]="'#accordionCard'+implement.id">
+                    <div class="card card-body">
+                        {{implement.descripcion}}
+                    </div>
+                </div>
+            </div>
+            <a class="btn poli btn-block" data-toggle="collapse"
+            href="#collapseCantidad{{implement.id}}" role="button" aria-expanded="false"
+            [attr.aria-controls]="'collapseCantidad'+implement.id" [ngClass]="{'disabled':started}">Iniciar Prestamo</a>
+
+            <div class="collapse" id="collapseCantidad{{implement.id}}" [attr.data-parent]="'#accordionCard'+implement.id">
+                <ng-container *ngIf="implement.cantidad - implement.cantidad_prestados === 0; else available">
+                    <div class="alert alert-danger mt-2" role="alert">
+                        <p>No hay cantidad disponible en este momento</p>
+                    </div>
+                </ng-container>
+                <ng-template #available>
+                    <div class="mt-2">
+                    <div class="form-group">
+                        <input type="number" name="amount" [(ngModel)]="amount" placeholder="Cantidad a solicitar" min="1" max="{{implement.cantidad - implement.cantidad_prestados}}" class="form-control" [disabled]="started" >
+                    </div>
+                    <a class="btn poli btn-block" (click)="selecter(implement.id,implement.nombre,amount)"
+                    [ngClass]="{'disabled':selection.id==implement.id || amount ==0}">
+                    <span *ngIf="selection.id==implement.id">Seleccionado</span><span
+                        *ngIf="selection.id!=implement.id">Seleccionar</span></a>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

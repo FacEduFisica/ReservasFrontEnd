@@ -1,0 +1,51 @@
+<ng-container *ngIf="!mensaje">
+<div class="col-md-4 offset-md-2">
+    <div class="card">
+        <div class="card-header text-center poli">
+            <p class="mb-0 text-white">Escenario</p>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <input type="text" name="title" [(ngModel)]="scenario.nombre" placeholder="Nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="descripcion" [(ngModel)]="scenario.descripcion" placeholder="Descripción" rows="7" class="form-control" required></textarea>
+                </div>
+                    <div class="form-group">
+                    <input type="file" name="imagen" (change)="upload($event)" accept=".png, .jpg, .jpeg" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="codigo" [(ngModel)]="scenario.codigo" placeholder="Código" class="form-control" required>
+                </div>
+                <div class="form-group d-flex">
+                    <textarea name="medidas" [(ngModel)]="scenario.medidas" placeholder="Medidas" rows="4" class="form-control" required></textarea>
+                </div>
+                <button class="btn btn-block poli text-white" [disabled]="scenario.nombre=='' ||
+                scenario.descripcion=='' || scenario.codigo==''|| scenario.medidas==''"
+                (click)="edit ? updateScenario() : addScenario()">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4 mb-4">
+    <div class="card card-body text-center">
+        <ng-container *ngIf="!edit; else editing">
+            <img class="card-img-top" [src]="imgUrl == null ? '/assets/unnamed.png':imgUrl" [alt]="scenario.nombre">
+        </ng-container>
+        <ng-template #editing>
+            <img class="card-img-top" [src]="imgUrlEdit == null ? scenario.imagen:imgUrlEdit" [alt]="scenario.nombre">
+        </ng-template>
+        <h4>{{scenario.nombre == '' ? 'Nombre' : scenario.nombre}}</h4>
+        <p>{{scenario.codigo == '' ? 'Código' : scenario.codigo}}</p>
+        <p>{{scenario.descripcion == '' ? 'Descripción' : scenario.descripcion}}</p>
+        <p>{{scenario.medidas == '' ? 'Medidas' : scenario.medidas}}</p>
+        <p>{{scenario.created_at | date: 'dd-MM-yyyy'}}</p>
+    </div>
+</div>
+</ng-container>
+
+<div class="row justify-content-center alert alert-success message mt-4" *ngIf="mensaje!=''" role="alert" >
+    <span>{{mensaje}}</span>
+</div>

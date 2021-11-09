@@ -1,0 +1,26 @@
+.message {
+  margin-right: 20em;
+  margin-left: 20em;
+}
+
+.form-control-feedback{
+  font-size: 13px;
+  color: red;
+  font-weight: 600;
+}
+
+button{
+  position: relative;
+  color: white;
+  background-color: #186844;
+}
+
+button:hover{
+  background-color: #0d9357;
+}
+
+.input-group {
+  width: 40%;
+  justify-content: center;
+  margin-left: 30%;
+}

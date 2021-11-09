@@ -1,0 +1,65 @@
+<ng-container *ngIf="!dataService.loggedIn(); else loggedIn">
+  <nav class="navbar navbar-dark nav">
+    <li class="nav-item">
+      <a class="nav-link link" routerLink="/login" routerLinkActive="actived">Ingresar</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link link" routerLink="/register" routerLinkActive="actived">Registrarse</a>
+    </li>
+  </nav>
+</ng-container>
+<ng-template #loggedIn>
+  <nav class="navbar navbar-dark nav">
+    <ng-container *ngIf="dataService.isAdmin();">
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/home" routerLinkActive="actived">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/users" routerLinkActive="actived">Usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/escenarios" routerLinkActive="actived">Escenarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/implementos" routerLinkActive="actived">Implementos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/reservas" routerLinkActive="actived">Reservas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/prestamos" routerLinkActive="actived">Prestamos</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="dataService.getRole() =='Profesor'">
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/home" routerLinkActive="actived">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/escenarios" routerLinkActive="actived">Escenarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/implementos" routerLinkActive="actived">Implementos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/mis-reservas" routerLinkActive="actived">Reservas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/mis-prestamos" routerLinkActive="actived">Prestamos</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="dataService.getRole() =='Externo' || dataService.getRole() == 'Alumno'">
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/home" routerLinkActive="actived">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/escenarios" routerLinkActive="actived">Escenarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link" routerLink="/mis-reservas" routerLinkActive="actived">Reservas</a>
+      </li>
+    </ng-container>
+    <li class="nav-item ml-auto">
+      <a class="nav-link link" (click)="logout()">Cerrar Sesión</a>
+    </li>
+  </nav>
+</ng-template>

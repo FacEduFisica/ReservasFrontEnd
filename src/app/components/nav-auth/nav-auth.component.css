@@ -1,0 +1,13 @@
+.nav {
+    background-color: #E8C64D;
+    justify-content: center;
+}
+
+.link {
+    color: #186844;
+    cursor: pointer;
+}
+
+.actived {
+    font-weight: 700;
+}

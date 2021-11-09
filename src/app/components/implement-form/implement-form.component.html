@@ -1,0 +1,45 @@
+<ng-container *ngIf="!mensaje">
+<div class="col-md-4 offset-md-2 mt-5">
+    <div class="card">
+        <div class="card-header text-center poli">
+            <p class="mb-0 text-white">Implemento</p>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <input type="text" name="nombre" [(ngModel)]="implement.nombre" placeholder="Nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="descripcion" [(ngModel)]="implement.descripcion" placeholder="Descripción" rows="2" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="placa" [(ngModel)]="implement.placa" placeholder="Placa" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="valor" [(ngModel)]="implement.valor" placeholder="Valor" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="cantidad" [(ngModel)]="implement.cantidad" placeholder="Cantidad" min="0" class="form-control">
+                </div>
+                <button class="btn btn-block poli text-white" [disabled]="implement.nombre==''||implement.placa == ''
+                ||implement.descripcion ==''||implement.valor == ''||implement.cantidad == 0" (click)="edit ? updateImplement() : addImplement()">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4 mb-4 mt-5">
+    <div class="card card-body text-center">
+        <h4>{{implement.nombre == '' ? 'Nombre' : implement.nombre}}</h4>
+        <p>{{implement.descripcion == '' ? 'Descripción' : implement.descripcion}}</p>
+        <p>{{implement.placa == '' ? 'Placa' : implement.placa}}</p>
+        <p>${{implement.valor == '' ? '0' : implement.valor}}</p>
+        <p>{{implement.cantidad == null ? 'Cantidad' : implement.cantidad}}</p>
+        <p>{{implement.created_at | date: 'dd-MM-yyyy'}}</p>
+    </div>
+</div>
+</ng-container>
+
+<div class="row justify-content-center alert alert-success message mt-4" *ngIf="mensaje!=''" role="alert" >
+    <span>{{mensaje}}</span>
+</div>

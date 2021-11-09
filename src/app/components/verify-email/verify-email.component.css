@@ -1,0 +1,10 @@
+.message {
+    margin-right: 20em;
+    margin-left: 20em;
+}
+
+.input-group {
+    width: 40%;
+    justify-content: center;
+    margin-left: 30%;
+}

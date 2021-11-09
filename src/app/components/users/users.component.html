@@ -1,0 +1,57 @@
+<app-loading *ngIf="loading"></app-loading>
+<div class="container mt-4 p-1 justify-content-center">
+    <div class="d-flex flex-row bd-highlight">
+        <div class="p-2 bd-highlight">
+            <button type="submit" class="btn poli" (click)='listUsers()'><i class="fa fa-user-circle mr-2"></i>Listar Usuarios</button>
+        </div>
+        <div class="p-2 bd-highlight">
+            <button type="submit" class="btn poli" (click)='register()'><i class="fa fa-plus-circle mr-2"></i>Registrar Usuario</button>
+        </div>
+      </div>
+</div>
+
+<div class="row justify-content-center alert alert-warning message mt-4" *ngIf="message!=''" role="alert" >
+    <span>{{message}}</span>
+</div>
+
+<ng-container *ngIf="info">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Verificado</th>
+                <th scope="col">Acción</th>
+                <!--<th scope="col">Editar</th>-->
+            </tr>
+        </thead>
+        <tbody class="body">
+            <tr *ngFor="let user of users">
+                <td>{{user.name}} {{user.surname}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.user_type}}</td>
+                <td>
+                    <ng-container *ngIf="user.email_verified_at; else verificado">
+                        <p>Si</p>
+                    </ng-container>
+                    <ng-template #verificado>
+                        <p>No</p>
+                    </ng-template>
+                </td>
+                <td>
+                    <ng-container *ngIf="user.is_active; else desactivado">
+                        <button class="btn desactive" (click)="changeStatus(user.email,0)">Desactivar</button>
+                    </ng-container>
+                    <ng-template #desactivado>
+                        <button class="btn poli" (click)="changeStatus(user.email,1)">Activar</button>
+                    </ng-template>
+                </td>
+                <!--<td><button class="btn edit ml-3">Editar</button></td>-->
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
+<ng-container *ngIf="regist">
+    <app-register></app-register>
+</ng-container>

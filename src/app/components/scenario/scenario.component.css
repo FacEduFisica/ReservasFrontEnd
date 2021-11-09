@@ -1,0 +1,33 @@
+.backgroun-poli {
+    background-color: #186844;
+}
+
+.text {
+    color: #186844;
+}
+
+.text:hover {
+    text-decoration: underline;
+}
+
+.poli , .desactive, .edit{
+    color: white;
+    -webkit-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+}
+
+.poli {
+    background-color: #186844;
+}
+
+.btn-top-yellow {
+    background-color: #E8C64D;
+    color: #186844;
+    font-weight: 400;
+}
+
+.nav {
+    background-color: #E8C64D;
+    justify-content: center;
+}

@@ -1,0 +1,24 @@
+.poli , .desactive, .edit{
+    color: white;
+    -webkit-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 5px -1px rgba(0,0,0,0.3);
+}
+
+
+.poli {
+    background-color: #186844;
+}
+
+.desactive {
+    background-color: #e72727;   
+}
+
+.edit {
+    background-color: #E8C64D;
+}
+
+.message {
+    margin-right: 20em;
+    margin-left: 20em;
+}

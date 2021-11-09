@@ -1,0 +1,19 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-container *ngIf="dataService.isAdmin()">
+    <div class="container mt-4 p-1 justify-content-center">
+        <div class="d-flex flex-row bd-highlight">
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli" routerLink="/implementos/crear"><i class="fa fa-plus-circle mr-2"></i>Crear Implemento</button>
+            </div>
+          </div>
+    </div>
+</ng-container>
+<app-implement *ngIf="implements.length!=0" [implements]="implements" (selectionChange)='selection($event)'></app-implement>
+<app-calendar-user *ngIf="selected!=0" tipoPrestamo="Implement" [events]="events" (bookingChange)="booking($event)"></app-calendar-user>
+
+<div class="text-center mt-5">
+    <div *ngIf='ok' class="alert alert-success" role="alert">
+      El prestamo se ha creado correctamente.
+    </div>
+  <button type="button" (click)="addLoan()" class="btn poli mb-4" [disabled]="disable">Enviar</button>
+</div>

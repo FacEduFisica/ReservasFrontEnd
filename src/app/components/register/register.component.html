@@ -1,0 +1,103 @@
+<app-loading *ngIf="loading"></app-loading>
+<div class="container mt-1 p-1 justify-content-center">
+  <div class="text-center justify-content-center">
+    <h1 class="mb-4">Registrarse</h1>
+  </div>
+  <form [formGroup]="form">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fa fa-address-card"></i>
+        </div>
+      </div>
+      <input class="form-control" type="text" placeholder="Nombres" name="name" formControlName="name"
+        [ngClass]="{'is-invalid':!form.get('name').valid && form.get('name').touched}">
+      <div *ngIf="form.controls['name'].errors?.required && form.get('name').touched"
+        class="form-control-feedback col-12">
+        El nombre es obligatorio.
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fa fa-address-card"></i>
+        </div>
+      </div>
+      <input class="form-control" type="text" name="surname" placeholder="Apellidos" formControlName="surname"
+        [ngClass]="{'is-invalid':!form.get('surname').valid && form.get('surname').touched}">
+      <div *ngIf="form.controls['surname'].errors?.required && form.get('surname').touched"
+        class="form-control-feedback col-12">
+        El apellido es obligatorio.
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fa fa-envelope"></i>
+        </div>
+      </div>
+      <input class="form-control" type="email" name="email" placeholder="Email" formControlName="email"
+        autocomplete="off" (change)="verifyEmail()" (keyup)="verifyEmail()"
+        [ngClass]="{'is-invalid':!form.get('email').valid && form.get('email').touched}">
+      <div *ngIf="!form.get('email').valid && form.get('email').touched" class="form-control-feedback col-12">
+        Ingresa un correo válido.
+      </div>
+      <div *ngIf="domineEmail" class="form-control-feedback col-12">
+        El correo no pertenece al Politécnico Colombiano Jaime Isaza Cadavid.
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fa fa-key"></i>
+        </div>
+      </div>
+      <input class="form-control" type="password" placeholder="Contraseña" name="password" formControlName="password"
+        (change)="verify()" (keyup)="verify()" autocomplete="off"
+        [ngClass]="{'is-invalid':!form.get('password').valid && form.get('password').touched}">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fa fa-key"></i>
+        </div>
+      </div>
+      <input class="form-control" type="password" name="confContraseña" placeholder="Confirmar contraseña"
+        formControlName="password_confirmation" (change)="verify()" (keyup)="verify()" autocomplete="off"
+        [ngClass]="{'is-invalid':!form.get('password_confirmation').valid && form.get('password_confirmation').touched}">
+      <div
+        *ngIf="!form.controls['password'].errors?.required && !verification && form.get('password_confirmation').touched"
+        class="form-control-feedback col-12">
+        Las contraseñas no coinciden
+      </div>
+    </div>
+    <div class="input-group">
+      <ng-container *ngIf="isAdmin()">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="user_type" id="inlineCheckbox4" value="Admin">
+          <label class="form-check-label" for="inlineCheckbox4">Admin</label>
+        </div>
+      </ng-container>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="user_type" id="inlineCheckbox1" value="Alumno">
+        <label class="form-check-label" for="inlineCheckbox1">Alumno</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="user_type" id="inlineCheckbox2" value="Profesor">
+        <label class="form-check-label" for="inlineCheckbox2">Profesor</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="user_type" id="inlineCheckbox3" value="Externo">
+        <label class="form-check-label" for="inlineCheckbox3">Externo</label>
+      </div>
+    </div>
+    <div class="row justify-content-center alert alert-warning message" *ngIf="message!=''" role="alert">
+      <span>{{message}}</span>
+    </div>
+    <div class="row justify-content-center mt-3 mb-1">
+      <button type="submit" class="btn poli"
+        [disabled]="form.get('email').invalid || !form.get('name').value || !form.get('surname').value || !form.get('password').value || !form.get('password_confirmation').value || !form.get('user_type').value || !verification || domineEmail"
+        (click)='register()'>Registrar</button>
+    </div>
+  </form>
+</div>

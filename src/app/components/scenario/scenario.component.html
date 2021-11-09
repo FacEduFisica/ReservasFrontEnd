@@ -1,0 +1,52 @@
+<div class="text-center col-md-12 mt-4 mb-4">
+    <h1 class="cover-heading">Escenarios</h1>
+</div>
+<div class="col-md-4" *ngFor="let scenario of scenarios">
+    <div class="card text-center mb-4">
+        <div class="card-header backgroun-poli text-white d-flex justify-content-between align-items-center">
+            {{scenario.nombre}}
+            <ng-container *ngIf="dataService.isAdmin()">
+                <div class="d-flex">
+                    <button class="btn btn-secondary mr-2" [routerLink]="['/escenarios/editar',scenario.id]">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="deleteScenario(scenario.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+        <img class="card-img-top" [src]="scenario.imagen == null ? '/assets/unnamed.png': scenario.imagen" [alt]="scenario.nombre">
+        <div class="card-body">
+            <p>{{scenario.codigo}}</p>
+            <div class="accordion" id="accordionCard{{scenario.id}}">
+                <p>
+                    <a class="btn btn-top-yellow" data-toggle="collapse" href="#collapseMedidas{{scenario.id}}"
+                        role="button" aria-expanded="false"
+                        [attr.aria-controls]="'collapseMedidas'+scenario.id">
+                        Medidas
+                    </a>
+                    <button class="btn btn-top-yellow ml-2" type="button" data-toggle="collapse"
+                        [attr.data-target]="'#collapseDescripcion'+scenario.id" aria-expanded="false"
+                        [attr.aria-controls]="'collapseDescripcion'+scenario.id">
+                        Descripción
+                    </button>
+                </p>
+                <div class="collapse" id="collapseMedidas{{scenario.id}}" [attr.data-parent]="'#accordionCard'+scenario.id">
+                    <div class="card card-body">
+                        {{scenario.medidas}}
+                    </div>
+                </div>
+                <div class="collapse" id="collapseDescripcion{{scenario.id}}" [attr.data-parent]="'#accordionCard'+scenario.id">
+                    <div class="card card-body">
+                        {{scenario.descripcion}}
+                    </div>
+                </div>
+            </div>
+            <a class="btn poli btn-block" (click)="selecter(scenario.id,scenario.nombre)"
+            [ngClass]="{'disabled':selection==scenario.id}">
+            <span *ngIf="selection==scenario.id">Seleccionado</span><span
+                *ngIf="selection!=scenario.id">Seleccionar</span></a>
+        </div>
+    </div>
+</div>

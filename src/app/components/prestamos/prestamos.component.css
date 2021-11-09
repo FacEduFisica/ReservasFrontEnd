@@ -1,0 +1,20 @@
+.poli {
+    background-color: #186844;
+}
+
+.bcgd-secondary {
+    background-color: #E8C64D;
+    justify-content: center;
+}
+
+.desactive {
+    background-color: #e72727;   
+}
+
+.aprobado { color:#186844 }
+.solicitado { color:  #100699 }
+.rechazado { color:#e72727 }
+
+.aprobado, .solicitado,.rechazado {
+    font-weight: 600;
+}

@@ -1,0 +1,147 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-container *ngIf="dataService.isAdmin()">
+    <div class="container mt-4 p-1 justify-content-center">
+        <div class="input-group mb-3">
+            <input type="number" name="id" [(ngModel)]="id" placeholder="Id Prestamo" min="1" class="form-control col-2" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+              <button [disabled]= "!id" class="btn poli text-white" type="button" id="button-addon1" (click)="getLoan(id)">Buscar</button>
+            </div>
+        </div>
+        <div class="row justify-content-center alert alert-warning message" *ngIf="message_id" role="alert">
+            <span>{{message_id}}</span>
+        </div>
+        <div class="d-flex flex-row bd-highlight">
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli text-white" (click)='listLoansDay()'><i class="fa fa-circle mr-2"></i>Prestamos Pendientes Día</button>
+            </div>
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli text-white" (click)='listLoans()'><i class="fa fa-minus-circle mr-2"></i>Prestamos</button>
+            </div>
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli text-white" (click)="listStatusLoans('Aprobado')"><i class="fa fa-check-circle mr-2"></i>Prestamos Aprobados</button>
+            </div>
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli text-white" (click)="listStatusLoans('Solicitado')"><i class="fa fa-spinner mr-2"></i>Prestamos Pendientes</button>
+            </div>
+            <div class="p-2 bd-highlight">
+                <button type="submit" class="btn poli text-white" (click)="listStatusLoans('Rechazado')"><i class="fa fa-times-circle mr-2"></i>Prestamos Cancelados</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<div class="text-center">
+    <h1 class="cover-heading mt-4">Prestamos {{consulta}}</h1>
+</div>
+<div class="row justify-content-center alert alert-warning message" *ngIf="message" role="alert">
+    <span>{{message}}</span>
+</div>
+<div *ngIf="loans.length>0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Solicitud</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Implemento</th>
+                <th scope="col">Fecha Inicial</th>
+                <th scope="col">Fecha Final</th>
+                <th scope="col">Estado Prestamo</th>
+                <th scope="col">Estado Implemento</th>
+                <th scope="col">Penalidad</th>
+                <th scope="col">Detalle Implementos</th>
+            </tr>
+        </thead>
+        <tbody class="body">
+            <tr *ngFor="let loan of loans">
+                <td>{{loan.id}}</td>
+                <td>{{loan.email}}</td>
+                <td>{{loan.implemento}}</td>
+                <td>{{loan.fecha_inicial}}</td>
+                <td>{{loan.fecha_final}}</td>
+                <ng-container *ngIf="loan.estado_prestamo==='Aprobado'">
+                    <td class="aprobado">{{loan.estado_prestamo}}</td>
+                </ng-container>
+                <ng-container *ngIf="loan.estado_prestamo==='Solicitado'">
+                    <td class="solicitado">{{loan.estado_prestamo}}</td>
+                </ng-container>
+                <ng-container *ngIf="loan.estado_prestamo==='Rechazado'">
+                    <td class="rechazado">{{loan.estado_prestamo}}</td>
+                </ng-container>
+                <td>{{loan.estado_implemento_prestamo}}</td>
+                <td>${{loan.valor*loan.cantidad_implemento_perdido}}</td>
+                <td><button type="button" class="btn poli text-white" data-toggle="modal" data-target="#exampleModal"
+                        (click)="getLoanUser(loan.id)">Mostrar</button></td>
+
+                <div class="modal-poli modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Prestamo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <ng-container *ngIf="loan_user">
+                                <div class="modal-body">
+                                    <div class="card text-center mb-2">
+                                        <div class="card-header poli text-white">
+                                            Solicitud # {{loan_user.id}}
+                                        </div>
+                                        <div class="card-body">
+                                            <div>
+                                                <h4 class="mb-0">Información Implementos</h4>
+                                                <p class="mb-0">Solicitado: {{loan_user.cantidad_implemento_solicitado}}</p>
+                                                <p class="mb-0">Entregado: {{loan_user.cantidad_implemento_entregado}}</p>
+                                                <p class="mb-0">Devuelto: {{loan_user.cantidad_implemento_devuelto}}</p>
+                                                <p class="mb-0">Perdido: {{loan_user.cantidad_implemento_perdido}}</p>
+                                                <p class="mb-0">Defectuoso: {{loan_user.cantidad_implemento_defectuoso}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="dataService.isAdmin()">
+                                        <form>
+                                            <div class="card text-center mb-2">
+                                                <div class="card-header aprobado bcgd-secondary">
+                                                    Estado Prestamo
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="input-group mb-1">
+                                                        <select class="custom-select" [(ngModel)]="statusSelected" name="status" (ngModelChange)="selectStatus($event)">
+                                                            <option value="0" selected disabled>Estado Prestamo...</option>
+                                                            <option *ngFor="let st of status_array" [value]="st.id" >{{st.status}}</option>
+                                                        </select>
+                                                        <button type="button" class="btn poli text-white" data-dismiss="modal" (click)="updateStatus(loan_user.id)">Actualizar</button>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form>
+                                            <div class="card text-center">
+                                                <div class="card-header aprobado bcgd-secondary">
+                                                    Estado Implemento
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="input-group mb-1">
+                                                        <select class="custom-select" [(ngModel)]="statusImplementSelected" name="status_implement" (ngModelChange)="selectImplementStatus($event)">
+                                                            <option value="0" selected disabled>Estado Implemento</option>
+                                                            <option *ngFor="let sti of status_implement_array" [value]="sti.id">{{sti.status_implement}}</option>
+                                                        </select>
+                                                        <input type="number" name="amount" [(ngModel)]="amount" placeholder="Cantidad" min="1" max="{{loan_user.cantidad_implemento_solicitado}}" class="form-control col-2" >
+                                                        <button type="button" class="btn poli text-white" data-dismiss="modal" (click)="updateStatusImplement(loan_user.id)">Actualizar</button>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                            <div class="modal-footer">
+                                <button type="button" class="btn poli text-white" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+        </tbody>
+    </table>
+</div>
