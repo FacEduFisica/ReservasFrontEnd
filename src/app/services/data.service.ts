@@ -4,40 +4,44 @@ import { Observable } from 'rxjs';
 import { tr } from 'date-fns/locale';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-  private URL = 'http://reservas.poli/api/';
+  //private URL = 'http://reservas.poli/api/';
+  private URL = 'http://localhost:8000/api/';
   role: string;
-  constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   //Users
   login(user) {
-    return this.http.post<any>(`${this.URL}login`,user);
+    return this.http.post<any>(`${this.URL}login`, user);
   }
 
   register(user) {
-    return this.http.post<any>(`${this.URL}register`,user);
+    return this.http.post<any>(`${this.URL}register`, user);
   }
 
   resendVerifyEmail(user) {
-    return this.http.post<any>(`${this.URL}resend-verify`,user);
+    return this.http.post<any>(`${this.URL}resend-verify`, user);
   }
 
-  forgot(email){
-    return this.http.post<any>(`${this.URL}password/email`,email);
+  forgot(email) {
+    return this.http.post<any>(`${this.URL}password/email`, email);
   }
 
   reset(body, token) {
-    return this.http.post<any>(`${this.URL}password/reset?token=${token}`,body);
+    return this.http.post<any>(
+      `${this.URL}password/reset?token=${token}`,
+      body
+    );
   }
 
   loggedIn(): Boolean {
     return !!localStorage.getItem('token');
   }
-  
+
   isAdmin(): Boolean {
-    if(localStorage.getItem('role') ==='Admin'){
+    if (localStorage.getItem('role') === 'Admin') {
       return true;
     }
     return false;
@@ -60,7 +64,7 @@ export class DataService {
   }
 
   changeStatus(body) {
-    return this.http.put<any>(`${this.URL}users/active`,body);
+    return this.http.put<any>(`${this.URL}users/active`, body);
   }
 
   //Escenarios
@@ -70,11 +74,11 @@ export class DataService {
   }
 
   addScenario(scenario) {
-    return this.http.post<any>(`${this.URL}escenarios/add`,scenario);
+    return this.http.post<any>(`${this.URL}escenarios/add`, scenario);
   }
 
-  updateScenario(id,scenario) {
-    return this.http.put<any>(`${this.URL}escenarios/${id}`,scenario);
+  updateScenario(id, scenario) {
+    return this.http.put<any>(`${this.URL}escenarios/${id}`, scenario);
   }
 
   deleteScenario(id) {
@@ -91,8 +95,8 @@ export class DataService {
     return this.http.get<any>(`${this.URL}reservas`);
   }
 
-  changeStatusReservation(id,status) {
-    return this.http.put<any>(`${this.URL}reservas/estado/${id}`,status);
+  changeStatusReservation(id, status) {
+    return this.http.put<any>(`${this.URL}reservas/estado/${id}`, status);
   }
 
   getReservation(id) {
@@ -100,7 +104,7 @@ export class DataService {
   }
 
   addReservation(reservation) {
-    return this.http.post<any>(`${this.URL}reservas`,reservation);
+    return this.http.post<any>(`${this.URL}reservas`, reservation);
   }
 
   listStatusReservations(status) {
@@ -108,7 +112,7 @@ export class DataService {
   }
 
   listReservationsDay(today) {
-    return this.http.post<any>(`${this.URL}reservas/today`,today);
+    return this.http.post<any>(`${this.URL}reservas/today`, today);
   }
 
   listReservationsUser() {
@@ -130,14 +134,14 @@ export class DataService {
   }
 
   addImplement(implement) {
-    return this.http.post<any>(`${this.URL}implementos/add`,implement);
+    return this.http.post<any>(`${this.URL}implementos/add`, implement);
   }
 
-  updateImplement(id,implemet) {
-    return this.http.put<any>(`${this.URL}implementos/${id}`,implemet);
+  updateImplement(id, implemet) {
+    return this.http.put<any>(`${this.URL}implementos/${id}`, implemet);
   }
 
-  deleteImplement(id){
+  deleteImplement(id) {
     return this.http.delete<any>(`${this.URL}implementos/${id}`);
   }
 
@@ -150,10 +154,9 @@ export class DataService {
   getLoan(id) {
     return this.http.get<any>(`${this.URL}prestamos/${id}`);
   }
-  
 
   addLoan(loan) {
-    return this.http.post<any>(`${this.URL}prestamos`,loan);
+    return this.http.post<any>(`${this.URL}prestamos`, loan);
   }
 
   listLoansUser() {
@@ -165,15 +168,18 @@ export class DataService {
   }
 
   listLoansDay(today) {
-    return this.http.post<any>(`${this.URL}prestamos/today`,today);
+    return this.http.post<any>(`${this.URL}prestamos/today`, today);
   }
 
-  updateStatus(id,status) {
-    return this.http.put<any>(`${this.URL}prestamos/estado/${id}`,status);
+  updateStatus(id, status) {
+    return this.http.put<any>(`${this.URL}prestamos/estado/${id}`, status);
   }
 
-  updateStatusImplement(id,body) {
-    return this.http.put<any>(`${this.URL}prestamos/estado/implemento/${id}`,body)
+  updateStatusImplement(id, body) {
+    return this.http.put<any>(
+      `${this.URL}prestamos/estado/implemento/${id}`,
+      body
+    );
   }
 
   listStatusLoans(status) {
