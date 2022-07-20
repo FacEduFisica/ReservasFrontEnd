@@ -7,8 +7,8 @@ import { tr } from 'date-fns/locale';
   providedIn: 'root',
 })
 export class DataService {
-  //private URL = 'http://reservas.poli/api/';
-  private URL = 'http://localhost:8000/api/';
+  private URL = 'https://reservasbackend.herokuapp.com/api/';
+  //private URL = 'http://localhost:8000/api/';
   role: string;
   constructor(private http: HttpClient) {}
 
